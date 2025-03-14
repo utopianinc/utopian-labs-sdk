@@ -1,15 +1,15 @@
-# Utopian Labs Typescript SDK
+# Utopian Labs TypeScript SDK
 
-The Utopian Labs Typescript SDK provides convenient access to the Utopian Labs API from
-applications written in server-side JavaScript.
+The Utopian Labs TypeScript SDK provides convenient access to the Utopian Labs API from
+applications written in server-side TypeScript.
 
 ## Documentation
 
-See the [`utopian-labs` API docs](https://docs.utopianlabs.ai/) for Node.js.
+See the [`utopianlabs` API docs](https://docs.utopianlabs.ai/) for Node.js.
 
 ## Requirements
 
-Node 12 or higher.
+Node 20 or higher.
 
 ## Installation
 
