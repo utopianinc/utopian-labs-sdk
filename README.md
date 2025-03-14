@@ -16,9 +16,9 @@ Node 12 or higher.
 Install the package with:
 
 ```sh
-npm install @utopian-labs/sdk
+npm install utopianlabs
 # or
-yarn add @utopian-labs/sdk
+yarn add utopianlabs
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ available in the [Utopian Labs API Keys page](https://portal.utopianlabs.ai/api-
 ### Create a new agent run
 
 ```ts
-import UtopianLabs from "@utopian-labs/sdk";
+import { UtopianLabs } from "utopianlabs";
 const utopianLabs = new UtopianLabs({ apiKey: "your-api-key" });
 
 const run = await utopianLabs.agents.runs.create({
@@ -47,7 +47,7 @@ console.log(run);
 ### Fetch an agent run
 
 ```ts
-import UtopianLabs from "@utopian-labs/sdk";
+import { UtopianLabs } from "utopianlabs";
 const utopianLabs = new UtopianLabs({ apiKey: "your-api-key" });
 
 const runData = await utopianLabs.agents.runs.get({

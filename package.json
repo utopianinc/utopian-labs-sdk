@@ -1,5 +1,5 @@
 {
-  "name": "@utopian-labs/sdk",
+  "name": "utopianlabs",
   "version": "0.1.0",
   "description": "Official TypeScript SDK for the Utopian Labs API",
   "main": "./dist/index.js",
