@@ -1,4 +1,3 @@
-// src/endpoints/agents/index.ts
 import { AxiosInstance } from "axios";
 import { AgentRunsEndpoints } from "./runs";
 

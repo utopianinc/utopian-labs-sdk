@@ -56,7 +56,8 @@ const LANGUAGE_CODES = [
 export type LanguageCode = (typeof LANGUAGE_CODES)[number];
 
 export const zLanguageCode = z.enum(LANGUAGE_CODES, {
-  message: "Language not recognized or supported; please contact support in case you'd like to add support for a language.",
+  message:
+    "Language not recognized or supported; please contact support in case you'd like to add support for a language.",
 });
 
 const isValidDomainOrUrl = (value: string) => {
@@ -76,20 +77,38 @@ const isValidDomainOrUrl = (value: string) => {
 };
 
 const zPerson = z.object({
-  full_name: z.string().min(1, "full name is required").max(100, "full name must be less than 100 characters"),
+  full_name: z
+    .string()
+    .min(1, "full name is required")
+    .max(100, "full name must be less than 100 characters"),
   linkedin_url: z
     .string()
     .max(500, "linkedin url must be less than 500 characters")
     .refine(isValidDomainOrUrl, "Please enter a valid URL or domain")
     .optional(),
-  email: z.string().email().max(100, "email must be less than 100 characters").optional(),
-  job_title: z.string().max(100, "job title must be less than 100 characters").optional(),
+  email: z
+    .string()
+    .email()
+    .max(100, "email must be less than 100 characters")
+    .optional(),
+  job_title: z
+    .string()
+    .max(100, "job title must be less than 100 characters")
+    .optional(),
 });
 
 const zCompany = z.object({
-  website: z.string().refine(isValidDomainOrUrl, "Please enter a valid URL or domain"),
-  name: z.string().max(100, "company name must be less than 100 characters").optional(),
-  description: z.string().max(10_000, "company description must be less than 10,000 characters").optional(),
+  website: z
+    .string()
+    .refine(isValidDomainOrUrl, "Please enter a valid URL or domain"),
+  name: z
+    .string()
+    .max(100, "company name must be less than 100 characters")
+    .optional(),
+  description: z
+    .string()
+    .max(10_000, "company description must be less than 10,000 characters")
+    .optional(),
 });
 
 export const zPostAgentRunBaseRequest = z.object({
@@ -106,13 +125,18 @@ export const zPostAgentRunBaseRequest = z.object({
   events: z
     .array(
       z.object({
-        description: z.string().max(10_000, "event description must be less than 10,000 characters"), // a description of what happened
+        description: z
+          .string()
+          .max(10_000, "event description must be less than 10,000 characters"), // a description of what happened
         timestamp_ms: z.number().optional(),
       })
     )
     .max(100, "you can only provide up to 100 events")
     .optional(),
-  context: z.string().max(10_000, "context must be less than 10,000 characters").optional(), // free-format string, like a system prompt
+  context: z
+    .string()
+    .max(10_000, "context must be less than 10,000 characters")
+    .optional(), // free-format string, like a system prompt
   min_research_steps: z.number().min(0).max(20).optional(),
   max_research_steps: z.number().min(0).max(100).optional(),
   callback_url: z
@@ -120,10 +144,21 @@ export const zPostAgentRunBaseRequest = z.object({
     .url()
     .refine((url) => {
       const allowedPatterns = ["https://integrations.utopianlabs.ai"];
-      const blockedPatterns = ["localhost", "127.0.0.1", "utopianlabs", "utopian-labs", "luna.ai", "getluna.dev"];
+      const blockedPatterns = [
+        "localhost",
+        "127.0.0.1",
+        "utopianlabs",
+        "utopian-labs",
+        "luna.ai",
+        "getluna.dev",
+      ];
       return (
-        allowedPatterns.some((pattern) => url.toLowerCase().includes(pattern.toLowerCase())) ||
-        !blockedPatterns.some((pattern) => url.toLowerCase().includes(pattern.toLowerCase()))
+        allowedPatterns.some((pattern) =>
+          url.toLowerCase().includes(pattern.toLowerCase())
+        ) ||
+        !blockedPatterns.some((pattern) =>
+          url.toLowerCase().includes(pattern.toLowerCase())
+        )
       );
     }, "This callback URL is not allowed")
     .optional(),
@@ -147,28 +182,34 @@ export const zPostTimingAgentRunRequest = zPostAgentRunBaseRequest.extend({
   agent: z.enum(["r1-timing", "r1-timing-light"]),
 });
 
-export const zPostClassificationAgentRunRequest = zPostAgentRunBaseRequest.extend({
-  agent: z.enum(["r1-classification", "r1-classification-light"]),
-  options: z
-    .array(
-      z.object({
-        name: z.string().min(1),
-        description: z.string().optional(),
-      })
-    )
-    .min(2, "you must provide at least 2 options")
-    .max(10, "you can only provide up to 10 options"),
-});
+export const zPostClassificationAgentRunRequest =
+  zPostAgentRunBaseRequest.extend({
+    agent: z.enum(["r1-classification", "r1-classification-light"]),
+    options: z
+      .array(
+        z.object({
+          name: z.string().min(1),
+          description: z.string().optional(),
+        })
+      )
+      .min(2, "you must provide at least 2 options")
+      .max(10, "you can only provide up to 10 options"),
+  });
 
-export const zPostAgentRunRequestWithoutMetadata = z.discriminatedUnion("agent", [
-  zPostResearchAgentRunRequest,
-  zPostQualifyingAgentRunRequest,
-  zPostCopywritingAgentRunRequest,
-  zPostTimingAgentRunRequest,
-  zPostClassificationAgentRunRequest,
-]);
+export const zPostAgentRunRequestWithoutMetadata = z.discriminatedUnion(
+  "agent",
+  [
+    zPostResearchAgentRunRequest,
+    zPostQualifyingAgentRunRequest,
+    zPostCopywritingAgentRunRequest,
+    zPostTimingAgentRunRequest,
+    zPostClassificationAgentRunRequest,
+  ]
+);
 
-export const zPostAgentRunRequest = zPostAgentRunRequestWithoutMetadata.and(z.object({ metadata: zMetadata.optional() }));
+export const zPostAgentRunRequest = zPostAgentRunRequestWithoutMetadata.and(
+  z.object({ metadata: zMetadata.optional() })
+);
 
 export const zPostAgentRunResponse = zResponse.extend({ id: z.string() });
 
@@ -190,7 +231,10 @@ export const zGetAgentRunRequest = z.object({
   run: z.string(),
 });
 
-const zResearchStep = z.object({ action: z.string(), outcome: z.string().optional() });
+const zResearchStep = z.object({
+  action: z.string(),
+  outcome: z.string().optional(),
+});
 
 const zGetQueuedRunResponse = zResponse.extend({
   id: z.string(),
@@ -328,4 +372,13 @@ const zGetRunWithResultResponse = z.discriminatedUnion("agent", [
   zGetClassificationRunWithResultResponse,
 ]);
 
-export const zGetAgentRunResponse = zGetQueuedRunResponse.or(zGetFailedRunResponse).or(zGetRunWithResultResponse);
+export const zGetAgentRunResponse = zGetQueuedRunResponse
+  .or(zGetFailedRunResponse)
+  .or(zGetRunWithResultResponse);
+
+export const zGetMeResponse = z.object({
+  status: z.string(),
+  orgName: z.string(),
+});
+
+export type GetMeResponse = z.infer<typeof zGetMeResponse>;
