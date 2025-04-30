@@ -176,6 +176,7 @@ export const zPostQualifyingAgentRunRequest = zPostAgentRunBaseRequest.extend({
 export const zPostCopywritingAgentRunRequest = zPostAgentRunBaseRequest.extend({
   agent: z.enum(["r1-copywriting", "r1-copywriting-light"]),
   language: zLanguageCode.optional().default("en-US"),
+  sequence_length: z.number().int().min(1).max(10).optional().default(1),
 });
 
 export const zPostTimingAgentRunRequest = zPostAgentRunBaseRequest.extend({
@@ -342,6 +343,19 @@ const zGetCopywritingRunWithResultResponse = zResponse.extend({
         subject: z.string().nullish(),
       })
       .nullish(),
+    sequence: z
+      .array(
+        z.object({
+          body: z
+            .object({
+              markdown: z.string(),
+              html: z.string(),
+            })
+            .nullish(),
+          subject: z.string().nullish(),
+        })
+      )
+      .optional(),
   }),
   metadata: zMetadata.optional(),
   created_at: z.number(),
