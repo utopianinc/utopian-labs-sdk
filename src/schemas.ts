@@ -391,7 +391,7 @@ export const zGetAgentRunResponse = zGetQueuedRunResponse
   .or(zGetRunWithResultResponse);
 
 export const zGetMeResponse = z.object({
-  status: z.string(),
+  status: z.enum(["success", "error"]),
   orgName: z.string().optional(),
   error: z.string().optional(),
 });
