@@ -1,4 +1,4 @@
-## 0.1.6
+## 0.1.8
 
 Updated schemas to support sequence writing in the R1-copywriting agent.
 
