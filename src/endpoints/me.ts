@@ -23,9 +23,15 @@ export class MeEndpoints {
         error instanceof SDKError &&
         error.type === SDKErrorType.Unauthorized
       ) {
-        throw new SDKError(SDKErrorType.Unauthorized, "Invalid API key");
+        return {
+          status: "error",
+          error: "Invalid API key",
+        };
       }
-      throw error;
+      return {
+        status: "error",
+        error: "Internal server error",
+      };
     }
   }
 }

@@ -392,7 +392,8 @@ export const zGetAgentRunResponse = zGetQueuedRunResponse
 
 export const zGetMeResponse = z.object({
   status: z.string(),
-  orgName: z.string(),
+  orgName: z.string().optional(),
+  error: z.string().optional(),
 });
 
 export type GetMeResponse = z.infer<typeof zGetMeResponse>;

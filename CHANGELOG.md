@@ -1,3 +1,7 @@
+## 0.1.9
+
+Small bug fix in the /me endpoint. It used to throw an error, but that was unwanted behavior. Now it returns either a `success` or `error` status, depending on the validity of the API key.
+
 ## 0.1.8
 
 Updated schemas to support sequence writing in the R1-copywriting agent.
