@@ -1,3 +1,7 @@
+## 0.1.11
+
+Added type support for structured output in the R1 research agent.
+
 ## 0.1.10
 
 Small bug fix in the /me endpoint. It used to throw an error, but that was unwanted behavior. Now it returns either a `success` or `error` status, depending on the validity of the API key.

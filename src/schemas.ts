@@ -163,6 +163,7 @@ export const zPostAgentRunBaseRequest = z.object({
     }, "This callback URL is not allowed")
     .optional(),
   use_memory: z.boolean().optional(), // if true, the agent will remember what it found in previous research runs
+  output_schema: z.record(z.string(), z.unknown()).optional(), // if provided, the agent will return a structured output in the requested JSON format
 });
 
 export const zPostResearchAgentRunRequest = zPostAgentRunBaseRequest.extend({
@@ -285,6 +286,7 @@ const zGetResearchRunWithResultResponse = zResponse.extend({
       .object({
         steps: z.array(zResearchStep),
         conclusion: z.string().optional(),
+        output: z.record(z.string(), z.unknown()).optional(),
       })
       .nullish(),
   }),
