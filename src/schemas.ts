@@ -86,6 +86,10 @@ const zPerson = z.object({
     .max(500, "linkedin url must be less than 500 characters")
     .refine(isValidDomainOrUrl, "Please enter a valid URL or domain")
     .optional(),
+  x_handle: z
+    .string()
+    .max(100, "x handle must be less than 100 characters")
+    .optional(),
   email: z
     .string()
     .email()
