@@ -1,3 +1,7 @@
+## 0.1.12
+
+Added support for the new `x_handle` param in the lead person type, allowing the agent to search someone's X posts.
+
 ## 0.1.11
 
 Added type support for structured output in the R1 research agent.
