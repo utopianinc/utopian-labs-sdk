@@ -396,6 +396,33 @@ export const zGetAgentRunResponse = zGetQueuedRunResponse
   .or(zGetFailedRunResponse)
   .or(zGetRunWithResultResponse);
 
+export const zCancelAgentRunRequest = z.object({
+  agent: z
+    .enum([
+      "r1",
+      "r1-light",
+      "r1-qualification",
+      "r1-qualification-light",
+      "r1-copywriting",
+      "r1-copywriting-light",
+      "r1-timing",
+      "r1-timing-light",
+      "r1-classification",
+      "r1-classification-light",
+    ])
+    .optional(),
+  run: z.string(),
+});
+
+export type CancelAgentRunRequest = z.infer<typeof zCancelAgentRunRequest>;
+
+export const zCancelAgentRunResponse = zResponse.extend({
+  id: z.string(),
+  status: z.literal("cancelled"),
+});
+
+export type CancelAgentRunResponse = z.infer<typeof zCancelAgentRunResponse>;
+
 export const zGetMeResponse = z.object({
   status: z.enum(["success", "error"]),
   orgName: z.string().optional(),
