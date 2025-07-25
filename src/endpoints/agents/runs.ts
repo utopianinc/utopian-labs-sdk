@@ -5,7 +5,13 @@ import {
   PostAgentRunRequestInput,
   PostAgentRunResponse,
 } from "../../types";
-import { zGetAgentRunRequest, zPostAgentRunRequest } from "../../schemas";
+import {
+  CancelAgentRunRequest,
+  CancelAgentRunResponse,
+  zCancelAgentRunRequest,
+  zGetAgentRunRequest,
+  zPostAgentRunRequest,
+} from "../../schemas";
 import { SDKError, SDKErrorType } from "../../errors";
 import { z } from "zod";
 
@@ -59,6 +65,34 @@ export class AgentRunsEndpoints {
       const response = await this.client.post<PostAgentRunResponse>(
         "/agents/runs",
         validatedData
+      );
+      return response.data;
+    } catch (error: unknown) {
+      if (error instanceof Error && error.name === "ZodError") {
+        const zodError = error as z.ZodError;
+        throw new SDKError(
+          SDKErrorType.ValidationError,
+          `Invalid request data: ${zodError.errors
+            .map((e) => `${e.path.join(".")}: ${e.message}`)
+            .join(", ")}`
+        );
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Cancel an agent run by ID
+   * @param params Request parameters including run ID
+   * @returns The cancelled agent run
+   */
+  async cancel(params: CancelAgentRunRequest): Promise<CancelAgentRunResponse> {
+    try {
+      // Validate input with Zod
+      const validatedParams = zCancelAgentRunRequest.parse(params);
+
+      const response = await this.client.delete<CancelAgentRunResponse>(
+        `/agents/runs/${validatedParams.run}`
       );
       return response.data;
     } catch (error: unknown) {

@@ -1,3 +1,7 @@
+## 0.1.14
+
+Added support for canceling agent runs after they're starting. The`cancel` method in the SDK calls the DELETE /runs/[runId] endpoint to change the status to `canceled` and stop the agent.
+
 ## 0.1.12
 
 Added support for the new `x_handle` param in the lead person type, allowing the agent to search someone's X posts.

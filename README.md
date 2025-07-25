@@ -56,3 +56,16 @@ const runData = await utopianLabs.agents.runs.get({
 
 console.log(runData);
 ```
+
+### Cancel an agent run
+
+```ts
+import { UtopianLabs } from "utopianlabs";
+const utopianLabs = new UtopianLabs({ apiKey: "your-api-key" });
+
+const runData = await utopianLabs.agents.runs.cancel({
+  id: "abc123",
+});
+
+console.log(runData);
+```
